@@ -8,7 +8,6 @@ class WeatherWidget extends Component {
       isLoading: true,
       icon: null,
       temp: '',
-      summary: 'Weather is Offline',
       locationName: 'Current \nWeather'
     }
   }
@@ -17,9 +16,11 @@ class WeatherWidget extends Component {
     if (this.props.location){
       this.setState({locationName: this.props.location})
     }
-
-    return fetch(`https://api.wunderground.com/api/${this.props.api}/${this.props.lat},${this.props.lng}.json`).then((response) => response.json()).then((responseJson) => {
-      this.setState({summary: responseJson.current_observation.weather, temp: (Math.round(10 * responseJson.current_observation.temp_c)/10) + '°C', icon: responseJson.current_observation.icon_url, isLoading: false});
+    console.log()
+    return fetch(`https://api.wunderground.com/api/${this.props.api}/conditions/q/${this.props.lat},${this.props.lng}.json`).then((response) => response.json()).then((responseJson) => {
+      console.log(responseJson.current_observation.icon_url);
+      var iconSplit = responseJson.current_observation.icon_url.split('http://');
+      this.setState({ temp: responseJson.current_observation.temp_c + ' °C', icon: `https://${iconSplit[1]}`, isLoading: false });
     }).catch((error) => {
       console.error(error);
       this.setState({isLoading: false});
@@ -37,16 +38,11 @@ class WeatherWidget extends Component {
 
     return (
       <View style={styles.container}>
-            <View style={styles.titleContainer}>
-              <Text style={[styles.title, (this.props.location && this.props.location.length <= 13) && styles.customTitle]}>{this.state.locationName}</Text>
-            </View>
-            <View style={[styles.summaryContainer, (this.state.summary.length >= 20) && styles.summaryContainerLong]}>
-              <Text style={styles.summary}>{this.state.summary}</Text>
-              <Image style={styles.icon} source={{ uri: `${this.state.icon}` }} />
-            </View>
-            <View style={styles.tempContainer}>
-              <Text>{this.state.temp}</Text>
-            </View>
+        <Image style={styles.icon} source={{ uri: `${this.state.icon}`}}/>
+        <View>
+          <Text style={styles.tempTextStyle}>{this.state.temp}</Text>
+          <Text style={styles.title}>{this.state.locationName}</Text>
+        </View>
       </View>
     )
   }
@@ -58,60 +54,27 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     position: 'relative',
-    borderTopWidth: 1,
-    borderTopColor: '#8294a0',
-    borderBottomWidth: 1,
-    borderBottomColor: '#8294a0',
-  },
-  titleContainer:{
-    flex: 1,
-    borderRightWidth: 1,
-    borderRightColor: '#8294a0'
+    alignItems: 'center'
   },
   title:{
     marginTop: 5,
-    marginBottom: 5,
-    marginRight: 5,
     color: 'black',
     fontWeight: '500',
     textAlign: 'right'
-  },
-  customTitle:{
-    marginTop: 13,
-    marginBottom: 13,
-    marginRight: 5,
-    color: 'black',
-    fontWeight: '500',
-    textAlign: 'right'
-  },
-  summaryContainer: {
-    flex: 1.5,
-    flexDirection: 'row',
-    marginTop: 12
-  },
-  summaryContainerLong: {
-    flex: 1.5,
-    flexDirection: 'row',
-    marginTop: 5
-  },
-  summary: {
-    marginLeft: 20,
-    marginRight: 10
   },
   icon: {
-    marginTop: -6
-  },
-  tempContainer: {
-    flex: .5,
-    flexDirection: 'column',
-    marginTop: 3,
-    marginRight: 15,
-    alignItems: 'flex-end'
+    marginHorizontal: 10,
+    height: 32,
+    width: 32,
   },
   spinner: {
     flex: -1,
     marginTop: 12,
     marginBottom: 12
+  },
+  tempTextStyle: {
+    fontWeight: 'bold',
+    fontSize: 15
   }
 });
 

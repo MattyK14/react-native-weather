@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/njwest/react-native-weather.git"
+    "url": "git+https://github.com/MattyK14/react-native-weather.git"
   },
     "devDependencies": {
     "babel-cli": "^6.18.0",
@@ -26,7 +26,6 @@
     "react native",
     "weather",
     "weather api",
-    "darksky.net",
     "app widget",
     "native app"
   ],
