@@ -18,7 +18,6 @@ class WeatherWidget extends Component {
     }
     console.log()
     return fetch(`https://api.wunderground.com/api/${this.props.api}/conditions/q/${this.props.lat},${this.props.lng}.json`).then((response) => response.json()).then((responseJson) => {
-      console.log(responseJson.current_observation.icon_url);
       var iconSplit = responseJson.current_observation.icon_url.split('http://');
       this.setState({ temp: responseJson.current_observation.temp_c + ' °C', icon: `https://${iconSplit[1]}`, isLoading: false });
     }).catch((error) => {
