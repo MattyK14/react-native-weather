@@ -4,7 +4,7 @@
 
 react-native-weather provides a React Native `<WeatherWidget />` component that takes in props and generates a widget containing the current weather conditions & temperature.
 
-In order to use this widget, you will need a DarkSky.net API key.  [Click here to sign up for a Weather Underground API key.](https://www.wunderground.com/signup?mode=api_signup "Weather Underground API Sign Up")
+In order to use this widget, you will need a WeatherUnderground API key.  [Click here to sign up for a Weather Underground API key.](https://www.wunderground.com/signup?mode=api_signup "Weather Underground API Sign Up")
 
 ### Table of Contents
 
